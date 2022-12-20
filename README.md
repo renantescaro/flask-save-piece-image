@@ -1,5 +1,9 @@
 # Pequena aplicação em Flask para salvar cortes de imagens
 
+<img style="width:40%" src="flaskr/static/d457057e-622a-4bd6-803a-4ba2a2ed175e.jpg">
+
+<br>
+
 ### De base foram utilizado os repositórios
 - https://github.com/renantescaro/front-save-piece-image
 - https://github.com/renantescaro/flask-estrutura-basica
