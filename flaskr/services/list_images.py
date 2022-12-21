@@ -5,14 +5,17 @@ from flaskr.utils.config import Config
 
 class ListImages:
     def _get_characters_read_index(self) -> List:
+        path_characters = Config.get('PATH_CHARACTERS')
+        if not path_characters:
+            return []
+
         characters_index = []
-        if path_characters := Config.get('PATH_CHARACTERS'):
-            for _, _, files in os.walk(os.path.abspath(path_characters)):
-                for file_name in files:
-                    if '_' in file_name:
-                        character, image_index = file_name.replace('.png', '').split('_')
-                        if image_index not in characters_index:
-                            characters_index.append(int(image_index))
+        for _, _, files in os.walk(os.path.abspath(path_characters)):
+            for file_name in files:
+                if '_' in file_name and '.png' in file_name:
+                    _, image_index = file_name.replace('.png', '').split('_')
+                    if image_index not in characters_index:
+                        characters_index.append(int(image_index))
         return characters_index
 
     def _get_images(self, characters_index:List) -> List:
