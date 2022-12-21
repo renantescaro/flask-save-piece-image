@@ -53,11 +53,13 @@
         ctxCanvasTarget.canvas.height = heightCut
 
         var indexImg = ''
+        var nameImg = ''
         const image = new Image();
 
-        function setImage(imgName='', index){
-            image.src = "/static/images/"+imgName;
+        function setImage(nameImgSelected='', index){
+            image.src = "/static/images/"+nameImgSelected;
             indexImg = index
+            nameImg = nameImgSelected
     
             onmousemove = function drawRectangleAroundMouse(e){
                 console.log("mouse location:", e.clientX, e.clientY)
@@ -67,7 +69,6 @@
                 ctx.strokeRect(e.clientX-50, e.clientY-50, widthCut, heightCut);
             }
         }
-
 
         canvas.onclick = function cropImageWithRectangle(e){
             console.log('clicou!')
@@ -87,14 +88,28 @@
             );
         }
 
+        function checkCharacter(character, plate){
+            if (character != null && plate != null){
+                return plate.toLowerCase().includes(character.toLowerCase())
+            }
+            return false
+        }
+
         document.addEventListener('keydown', (event) => {
             const keyName = event.key;
             if (keyName === 's') {
-                nameInput = prompt('Letra: ', '')
-                var a = document.createElement('a')
-                a.setAttribute('download', nameInput+'_'+indexImg);
-                a.setAttribute('href', canvasTarget.toDataURL("image/png"));
-                a.click();
+                character = prompt('Letra: ', '')
+                if (checkCharacter(character, nameImg)){
+                    var a = document.createElement('a')
+                    a.setAttribute('download', character+'_'+indexImg);
+                    a.setAttribute('href', canvasTarget.toDataURL("image/png"));
+                    a.click();
+                    return
+                }
+
+                else{
+                    alert('Caracter "'+character+'"" não encontrado na placa "'+nameImg+'"')
+                }
             }
         })
 
