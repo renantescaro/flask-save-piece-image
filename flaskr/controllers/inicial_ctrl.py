@@ -1,4 +1,5 @@
 from flask import render_template, jsonify, Blueprint
+from flaskr.services.check_piece import CheckPiece
 from flaskr.services.list_images import ListImages
 from flaskr.utils.config import Config
 
@@ -19,6 +20,12 @@ class InicialCtrl:
             qtd=len(imagens),
         )
 
-    @bp.route('/json', methods=['GET'])
-    def inicial_json():
-        return jsonify({'pagina':'inicial'})
+    @staticmethod
+    @bp.route('/amount-charactersr', methods=['GET'])
+    def amount_characters():
+        return jsonify(CheckPiece().amount_characters())
+
+    @staticmethod
+    @bp.route('/five-characters-less', methods=['GET'])
+    def five_characters_less():
+        return jsonify(CheckPiece().five_characters_less())
