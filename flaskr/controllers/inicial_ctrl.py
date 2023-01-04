@@ -12,12 +12,13 @@ bp = Blueprint(
 class InicialCtrl:
     @bp.route('/', methods=['GET'])
     def inicial_template():
-        imagens=ListImages().execute()
+        imagens, number_read=ListImages().execute()
         return render_template(
             'inicial.html',
             titulo='inicial',
             lista_images=imagens,
             qtd=len(imagens),
+            number_read=number_read
         )
 
     @staticmethod
