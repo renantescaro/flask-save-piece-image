@@ -46,6 +46,7 @@ class CheckPiece:
         sorted_list_five = []
         for index in range(5):
             sorted_list_five.append({
-                sorted_list[index]['character'] : sorted_list[index]['quantity']
+                'character': sorted_list[index]['character'],
+                'quantity': sorted_list[index]['quantity']
             })
         return sorted_list_five
