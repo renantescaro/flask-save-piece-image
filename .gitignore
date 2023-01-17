@@ -1,6 +1,8 @@
 venv/
 
 flaskr/static/images/
+flaskr/static/antigas/
+flaskr/static/novas/
 
 *.pyc
 __pycache__/
