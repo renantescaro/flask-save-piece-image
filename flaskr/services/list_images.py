@@ -18,16 +18,19 @@ class ListImages:
                         characters_index.append(int(image_index))
         return characters_index
 
-    def _get_images(self, characters_index:List) -> Tuple[List, int]:
+    def _get_images(self, characters_index:List[int]) -> Tuple[List, int]:
         final_images = []
         number_read = 0
         if path_images := Config.get('PATH_IMAGES'):
             for _, _, files in os.walk(os.path.abspath(path_images)):
-                for index, file_name in enumerate(files):
-                    image_read = 's' if index in characters_index else 'n'
+                for file_name in files:
+                    index, name = file_name.split('_')
+
+                    image_read = 's' if int(index) in characters_index else 'n'
                     number_read += 1 if image_read == 's' else 0
                     final_images.append({
-                        'file_name':file_name,
+                        'index':index,
+                        'name':name,
                         'read':image_read
                     })
         return final_images, number_read

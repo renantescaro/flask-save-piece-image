@@ -17,7 +17,6 @@ class InicialCtrl:
             'inicial.html',
             titulo='inicial',
             lista_images=imagens,
-            qtd=len(imagens),
             number_read=number_read
         )
 
