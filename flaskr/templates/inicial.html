@@ -9,7 +9,7 @@
 </head>
 <body>
     <div style="display: flex;">
-        <div style="width: 70%;">
+        <div style="width: 70%; background-color: rgb(80, 79, 46);">
             <canvas id="myCanvas"></canvas>
             <canvas id="canvasTarget"></canvas>
         </div>
@@ -39,17 +39,15 @@
                     <th>Index</th>
                     <th>Placa</th>
                     <th>Atual</th>
-                    <th>Feita</th>
                 </tr>
             </thead>
             <tbody>
-                {% for index in range(0, qtd) %}
-                    {% if lista_images[index]['read'] == 'n' %}
+                {% for image in lista_images %}
+                    {% if image['read'] == 'n' %}
                     <tr>
-                        <td>{{index}}</td>
-                        <td>{{lista_images[index]['file_name']}}</td>
-                        <td><input type="checkbox" onclick='setImage("{{lista_images[index]["file_name"]}}", "{{index}}")'></td>
-                        <td><input type="checkbox"></td>
+                        <td>{{image['index']}}</td>
+                        <td>{{image['name']}}</td>
+                        <td><input type="checkbox" onclick="setImage('{{image["name"]}}', {{image["index"]}})"></td>
                     </tr>
                     {% endif %}
                 {% endfor %}
@@ -76,6 +74,10 @@
         var nameImg = ''
         const image = new Image();
         getFiveCharactersLess()
+
+        setInterval(function(){
+            getFiveCharactersLess()
+        }, 30000)
 
         function setImage(nameImgSelected='', index){
             image.src = "/static/images/"+nameImgSelected;
@@ -107,13 +109,15 @@
         }
 
         function checkCharacter(character, plate){
-            if (character != null && plate != null){
+            if (character != null && character != '' && plate != null){
                 return plate.toLowerCase().includes(character.toLowerCase())
             }
             return false
         }
 
         function getFiveCharactersLess(){
+            console.log('executando getFiveCharactersLess...')
+
             var tbody = document.getElementById('tbodyFiveCharactersLess')
             var get = new XMLHttpRequest()
             get.open("GET", "/five-characters-less", true)
@@ -147,8 +151,6 @@
                     a.setAttribute('download', character+'_'+indexImg);
                     a.setAttribute('href', canvasTarget.toDataURL("image/png"));
                     a.click();
-
-                    getFiveCharactersLess()
                     return
                 }
 
