@@ -21,7 +21,7 @@ class InicialCtrl:
         )
 
     @staticmethod
-    @bp.route('/amount-charactersr', methods=['GET'])
+    @bp.route('/amount-characters', methods=['GET'])
     def amount_characters():
         return jsonify(CheckPiece().amount_characters())
 

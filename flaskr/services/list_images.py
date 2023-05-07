@@ -1,5 +1,5 @@
 import os
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 from flaskr.utils.config import Config
 
 
@@ -35,6 +35,17 @@ class ListImages:
                         characters_index.append(int(image_index))
         return characters_index
 
+    def _get_index_and_name(
+        self,
+        image_name:str
+    ) -> Tuple[Optional[int], Optional[str]]:
+        try:
+            index, name = image_name.split('_')
+            return int(index), name
+        except ValueError as e:
+            print(f'Error read image {image_name}', e)
+            return None, None
+
     def _get_list_images(self) -> Tuple[List, int]:
         final_images = []
         number_read = 0
@@ -42,9 +53,11 @@ class ListImages:
         images = self._get_files(self._path_images)
 
         for image_name in images:
-            index, name = image_name.split('_')
+            index, name = self._get_index_and_name(image_name)
+            if index is None or name is None:
+                return [], 0
 
-            image_read = 's' if int(index) in characters_index else 'n'
+            image_read = 's' if index in characters_index else 'n'
             number_read += 1 if image_read == 's' else 0
             final_images.append({
                 'index':index,
